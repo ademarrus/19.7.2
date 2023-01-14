@@ -135,4 +135,21 @@ class PetFriends:
         except json.decoder.JSONDecodeError:
             result = res.text
         return status, result
-    
+   
+#Добавление фото к существующему питомцу
+    def add_pet_photo(self, auth_key: json, pet_id: str, pet_photo: str) -> json:
+        """Метод добавляет фото в существующую карточку питомца"""
+
+        headers = {'auth_key': auth_key['key']}
+        data = {
+            'pet_photo': (pet_photo, open(pet_photo, 'rb'), 'image/jpeg')
+        }
+
+        res = requests.put(self.base_url + 'api/pets/set_photo/' + pet_id, headers=headers, data=data)
+        status = res.status_code
+        result = ""
+        try:
+            result = res.json()
+        except json.decoder.JSONDecodeError:
+            result = res.text
+        return status, result
