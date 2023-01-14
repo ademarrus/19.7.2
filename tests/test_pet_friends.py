@@ -94,7 +94,7 @@ def test_add_new_pet_with_failed_data(name="2", animal_type='123',
     assert status == 400
 
 # Тест 8. Некорректный ключ при просмотре всего списка животных
-def test_get_all_pets_with_valid_key(filter=''):
+def test_get_all_pets_with_failed_key(filter=''):
     """ Проверяем что запрос всех питомцев при некорректном ключе выдает ошибку 403"""
 
     _, auth_key = 'bc34542e30f79471ef21dd9b0a121b6c02c'
@@ -104,17 +104,31 @@ def test_get_all_pets_with_valid_key(filter=''):
 
 
 # Тест 9. Некорректный ключ при добавлении нового питомца
-def test_add_new_pet_without_photo_valid_data(name='Арсель', animal_type='змея',
+def test_add_new_pet_without_photo_failed_key(name='Арсель', animal_type='змея',
                                      age='2'):
-    """Проверяем что можно добавить питомца с корректными данными без фото"""
+    """Проверяем что можно нельзя добавить питомца с некорректными ключом пользователя"""
 
     # Запрашиваем ключ api и сохраняем в переменую auth_key
-    _, auth_key = pf.get_api_key(valid_email, valid_password)
+    _, auth_key = 'bc34542e30f79471ef21dd9b0a121b6c02c'
 
     # Добавляем питомца без фото
     status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
 
     # Сверяем полученный ответ с ожидаемым результатом
     assert status == 403
+    
 # Тест 10. Некорректный емайл
+def test_delete_self_pet_wrong():
+    """Проверяем невозможность удаления питомца при некорректном ключе пользователя"""
 
+    # Получаем ключ auth_key и запрашиваем список своих питомцев
+    _, auth_key = 'bc34542e30f79471ef21dd9b0a121b6c02c'
+    _, my_pets = pf.get_list_of_pets(auth_key, "my_pets")
+
+    # Берём id первого питомца из списка и отправляем запрос на удаление
+    pet_id = my_pets['pets'][0]['id']
+    status, _ = pf.delete_pet(auth_key, pet_id)
+
+    # Проверяем что статус ответа равен 403
+    assert status == 403
+ 
