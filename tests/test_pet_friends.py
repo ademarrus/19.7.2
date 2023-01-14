@@ -21,7 +21,19 @@ def test_get_api_key_for_wrong_user(email=wrong_email, password=valid_password):
     assert status == 403
 
 # Тест 3. Дбоваление нового питомца без фото
+def test_add_new_pet_without_photo_valid_data(name='Арсель', animal_type='змея',
+                                     age='2'):
+    """Проверяем что можно добавить питомца с корректными данными без фото"""
 
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца без фото
+    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 200
+    assert result['name'] == name
 
 # Тест 4. Некорректный емайл
 # Тест 5. Некорректный емайл
@@ -61,19 +73,7 @@ def test_add_new_pet_with_valid_data(name='Барбоскин', animal_type='д�
     assert status == 200
     assert result['name'] == name
 
-def test_add_new_pet_without_photo_valid_data(name='Барбоскин', animal_type='двортерьер',
-                                     age='4'):
-    """Проверяем что можно добавить питомца с корректными данными"""
 
-    # Запрашиваем ключ api и сохраняем в переменую auth_key
-    _, auth_key = pf.get_api_key(valid_email, valid_password)
-
-    # Добавляем питомца
-    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
-
-    # Сверяем полученный ответ с ожидаемым результатом
-    assert status == 200
-    assert result['name'] == name
 
 def test_successful_delete_self_pet():
     """Проверяем возможность удаления питомца"""
