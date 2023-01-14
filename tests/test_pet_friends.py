@@ -50,7 +50,16 @@ def test_successful_add_photo(pet_photo='imagws/cat1.jpg'):
         status, result = pf.add_pet_photo(auth_key, my_pets['pets'][0]['id'], pet_photo)
 
         assert status == 200
-# Тест 5. Некорректный емайл
+        
+# Тест 5. Возвращение списка питомцев пользователя
+def test_get_all_pets_with_valid_key(filter='my_pets'):
+    """ Проверяем что запрос питомцев пользователя возвращает не пустой список."""
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+    status, result = pf.get_list_of_pets(auth_key, filter)
+
+    assert status == 200
+    assert len(result['pets']) > 0
+    
 # Тест 6. Некорректный емайл
 # Тест 7. Некорректный емайл
 # Тест 8. Некорректный емайл
