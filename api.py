@@ -9,7 +9,8 @@ class PetFriends:
 
     def __init__(self):
         self.base_url = "https://petfriends1.herokuapp.com/"
-
+        
+# получение ключа
     def get_api_key(self, email: str, passwd: str) -> json:
         """Метод делает запрос к API сервера и возвращает статус запроса и результат в формате
         JSON с уникальным ключем пользователя, найденного по указанным email и паролем"""
@@ -27,6 +28,7 @@ class PetFriends:
             result = res.text
         return status, result
 
+ # получение списка питомцев   
     def get_list_of_pets(self, auth_key: json, filter: str = "") -> json:
         """Метод делает запрос к API сервера и возвращает статус запроса и результат в формате JSON
         со списком наденных питомцев, совпадающих с фильтром. На данный момент фильтр может иметь
@@ -45,6 +47,7 @@ class PetFriends:
             result = res.text
         return status, result
 
+# добавление нового питомца с картинкой    
     def add_new_pet(self, auth_key: json, name: str, animal_type: str,
                     age: str, pet_photo: str) -> json:
         """Метод отправляет (постит) на сервер данные о добавляемом питомце и возвращает статус
@@ -69,6 +72,7 @@ class PetFriends:
         print(result)
         return status, result
 
+ # удаление питомца   
     def delete_pet(self, auth_key: json, pet_id: str) -> json:
         """Метод отправляет на сервер запрос на удаление питомца по указанному ID и возвращает
         статус запроса и результат в формате JSON с текстом уведомления о успешном удалении.
@@ -85,6 +89,7 @@ class PetFriends:
             result = res.text
         return status, result
 
+# обновление питомца    
     def update_pet_info(self, auth_key: json, pet_id: str, name: str,
                         animal_type: str, age: int) -> json:
         """Метод отправляет запрос на сервер о обновлении данных питомуа по указанному ID и
