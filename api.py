@@ -49,7 +49,7 @@ class PetFriends:
 
 # добавление нового питомца с картинкой    
     def add_new_pet(self, auth_key: json, name: str, animal_type: str,
-                    age: str, pet_photo: str) -> json:
+                    age: int, pet_photo: str) -> json:
         """Метод отправляет (постит) на сервер данные о добавляемом питомце и возвращает статус
         запроса на сервер и результат в формате JSON с данными добавленного питомца"""
 
