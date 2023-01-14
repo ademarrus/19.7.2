@@ -4,17 +4,32 @@ import os
 
 pf = PetFriends()
 
+# Тест 1. Тест на использование неверного пароля 
 
-def test_get_api_key_for_valid_user(email=valid_email, password=valid_password):
-    """ Проверяем что запрос api ключа возвращает статус 200 и в тезультате содержится слово key"""
+def test_get_api_key_for_wrong_password(email=valid_email, password=wrong_password):
+    """ Проверяем что запрос api ключа возвращает статус 403 при неверном пароле"""
 
-    # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status, а текст ответа в result
     status, result = pf.get_api_key(email, password)
+    assert status == 403
 
-    # Сверяем полученные данные с нашими ожиданиями
-    assert status == 200
-    assert 'key' in result
+# Тест 2. Некорректный емайл
 
+def test_get_api_key_for_wrong_user(email=wrong_email, password=valid_password):
+    """ Проверяем что запрос api ключа возвращает статус 403 в результате использования некорректного емайла"""
+   
+    status, result = pf.get_api_key(email, password)
+    assert status == 403
+
+# Тест 3. Дбоваление нового питомца без фото
+
+
+# Тест 4. Некорректный емайл
+# Тест 5. Некорректный емайл
+# Тест 6. Некорректный емайл
+# Тест 7. Некорректный емайл
+# Тест 8. Некорректный емайл
+# Тест 9. Некорректный емайл
+# Тест 10. Некорректный емайл
 
 def test_get_all_pets_with_valid_key(filter=''):
     """ Проверяем что запрос всех питомцев возвращает не пустой список.
