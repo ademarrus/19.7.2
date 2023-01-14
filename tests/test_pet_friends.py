@@ -101,3 +101,19 @@ def test_successful_update_self_pet_info(name='Мурзик', animal_type='Ко�
     else:
         # если спиок питомцев пустой, то выкидываем исключение с текстом об отсутствии своих питомцев
         raise Exception("There is no my pets")
+        
+        
+  def test_successful_add_photo(pet_photo='images/cat1.jpg'):
+    """Проверяем возможность добавления фото"""
+
+    # Получаем полный путь изображения питомца и сохраняем в переменную pet_photo
+    pet_photo = os.path.join(os.path.dirname(__file__), pet_photo)
+
+    # Получаем ключ auth_key и список своих питомцев
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+    _, my_pets = pf.get_list_of_pets(auth_key, "my_pets")
+
+    if len(my_pets['pets']) > 0:
+        status, result = pf.add_pet_photo(auth_key, my_pets['pets'][0]['id'], pet_photo)
+
+        assert status == 200
