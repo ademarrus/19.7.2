@@ -60,9 +60,26 @@ def test_get_all_pets_with_valid_key(filter='my_pets'):
     assert status == 200
     assert len(result['pets']) > 0
     
-# Тест 6. Некорректный емайл
+# Тест 6. Неверный формат данных при обновлении карточки питомца
+def test_failed_update_self_pet_info(name='Ливер', animal_type='Попугай', age='пять'):
+    """Проверяем невозможность обновления информации о питомце при некорретном формате возраста"""
+
+    # Получаем ключ auth_key и список своих питомцев
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+    _, my_pets = pf.get_list_of_pets(auth_key, "my_pets")
+
+    # Если список не пустой, то пробуем обновить его имя, тип и возраст при некорректных данных
+    if len(my_pets['pets']) > 0:
+        status, result = pf.update_pet_info(auth_key, my_pets['pets'][0]['id'], name, animal_type, age)
+
+        # Проверяем что статус ответа = 400 и такой формат возраста использовать нельзя
+        assert status == 400
+  
 # Тест 7. Некорректный емайл
+
 # Тест 8. Некорректный емайл
+
 # Тест 9. Некорректный емайл
+
 # Тест 10. Некорректный емайл
 
